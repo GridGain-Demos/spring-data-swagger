@@ -199,10 +199,11 @@ connect to the server.
     ```
 ## Create Spring REST Controller
 
-1. Create a REST Controller for the application:
+1. Create a REST Controller for the application with RequestMapping:
 
     ```java
     @RestController
+   @RequestMapping("/api")
     public class WorldDatabaseController {
         @Autowired CityRepository cityRepository;
         
@@ -212,14 +213,78 @@ connect to the server.
 2. Add a method that returns top X most populated cities:
 
     ```java
-    @GetMapping("/api/mostPopulated")
+    @GetMapping("/mostPopulated")
     public List<List<?>> getMostPopulatedCities(@RequestParam(value = "limit", required = false) Integer limit) {
         return cityRepository.findTopXMostPopulatedCities(limit);
     }
     ```
    
-3. Test the method in your browser:
+3. Test the method in your browser or POSTMAN:
 
     ```shell script
     http://localhost:8080/api/mostPopulated?limit=5
     ```
+
+## BONUS - Swagger Integration: Configure Swagger API Extensions to generate Swagger API DOCS
+
+1. Enable Swagger2 and Swagger-UI extensions by adding the following artifacts to the `pom.xml` file
+
+    ```xml
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+    ```
+2. Update the `IgniteConfig` by adding @EnableSwagger2 annonation before the public class declaration. Add a method iDocket method as shown:
+      ```java
+        @Configuration
+        @EnableSwagger2
+        
+        public class IgniteConfig {
+            @Bean(name = "igniteInstance")
+            public Ignite igniteInstance(Ignite ignite) {
+                return ignite;
+            }
+        
+            @Bean
+            public IgniteConfigurer configurer() {
+                return igniteConfiguration -> {
+                    igniteConfiguration.setClientMode(true);
+                };
+            }
+        
+            @Bean
+            public Docket apiDocket(){
+                Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                        .select()
+                        .apis(RequestHandlerSelectors.basePackage("com.gridgain.training.spring"))
+                        .paths(PathSelectors.any())
+                        .build();
+                return docket;
+            }
+        
+        }
+
+       ```
+3. Test Swagger API docs in your browser or POSTMAN:
+
+   ```shell script
+   http://localhost:8080/v2/api-docs
+   ```
+   
+4. Test Swagger UI docs in your browser:
+
+   ```shell script
+   http://localhost:8080/swagger-ui.html
+   ```
+   
