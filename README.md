@@ -276,7 +276,7 @@ connect to the server.
         }
 
        ```
-3. Test Swagger API docs in your browser or POSTMAN:
+3. Test Swagger API docs in your browser or POSTMAN :
 
    ```shell script
    http://localhost:8080/v2/api-docs
