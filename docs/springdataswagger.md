@@ -1,14 +1,3 @@
-# Project Template for Apache Ignite With Spring Boot and Spring Data Training
-
-This project template is used throughout a
-[two-hour training session for Java developers and architects](https://www.gridgain.com/products/services/training/apache-ignite-spring-boot-and-spring-data-development)
-who want to explore the best practices and nuances of using Spring Boot and Spring Data with Apache Ignite.
-During that instructor-led training, you build a RESTful web service that uses Apache Ignite as an in-memory database.
-The service is a Spring Boot application that interacts with the Ignite cluster via Spring Data repository abstractions.
-
-Check [the schedule a join one of our upcoming sessions](https://www.gridgain.com/products/services/training/apache-ignite-spring-boot-and-spring-data-development).
-All the sessions are delivered by seasoned Ignite experts and committers.
-
 ## Setting Up Environment
 
 * Java Developer Kit, version 8 or later
