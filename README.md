@@ -1,4 +1,4 @@
-# Springdata with Swagger
+# Digital Integration Hub (DIH) with Ignite SpringData and Swagger
 
 [Design Document](/docs/design.md)
 
