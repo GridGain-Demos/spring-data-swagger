@@ -4,7 +4,7 @@
 - The above prompted me to think that we can push towards the following API Value Proposition with our customers. 
 - In the diagram below I am showing the Asset as zOS Data/Cache but really it can be any "Asset" that a company may want to expose via API Management tool for additional revenue stream and how to make this happen quickly.
 ![IMG1.png](IMG1.png)
-- I researched more into Spring and Swagger extensions. With the magic of Maven, Spring and  Springfoxswagger/UI I enhanced the Spring Data Training app ("World Database'') to generate Swagger API Docs and specifications.
+- With the magic of Maven, Spring and  Springfoxswagger/UI we enhanced the Spring Data Training app ("World Database'') to generate Swagger API Docs and specifications.
 ![IMG2.png](IMG2.png)
 ![IMG3.png](IMG3.png)
 
