@@ -2,9 +2,9 @@ package com.gridgain.training.spring;
 
 import com.gridgain.training.spring.model.City;
 import com.gridgain.training.spring.model.CityKey;
-import org.apache.ignite.springdata22.repository.IgniteRepository;
-import org.apache.ignite.springdata22.repository.config.Query;
-import org.apache.ignite.springdata22.repository.config.RepositoryConfig;
+import org.apache.ignite.springdata.repository.IgniteRepository;
+import org.apache.ignite.springdata.repository.config.Query;
+import org.apache.ignite.springdata.repository.config.RepositoryConfig;
 import org.springframework.stereotype.Repository;
 
 import javax.cache.Cache;

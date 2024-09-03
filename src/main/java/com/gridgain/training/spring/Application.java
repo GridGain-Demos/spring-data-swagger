@@ -1,6 +1,6 @@
 package com.gridgain.training.spring;
 
-import org.apache.ignite.springdata22.repository.config.EnableIgniteRepositories;
+import org.apache.ignite.springdata.repository.config.EnableIgniteRepositories;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
