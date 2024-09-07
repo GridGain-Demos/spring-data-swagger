@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.4</version>
+        <version>2.7.18</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.gridgain.training</groupId>
@@ -14,9 +14,18 @@
     <name>spring-data-training</name>
     <description>Demo project for Spring Boot, Spring Data and Ignite Training</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
+        <ignite.project>org.gridgain</ignite.project>
+        <ignite.version>8.9.10</ignite.version>
         <h2.version>1.4.197</h2.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>GridGain External Repository</id>
+            <url>https://www.gridgainsystems.com/nexus/content/repositories/external</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -32,13 +41,13 @@
 
         <dependency>
             <groupId>org.apache.ignite</groupId>
-            <artifactId>ignite-spring-data-2.2-ext</artifactId>
-            <version>1.0.0</version>
+            <artifactId>ignite-spring-data-ext</artifactId>
+            <version>2.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.ignite</groupId>
-            <artifactId>ignite-spring-boot-autoconfigure-ext</artifactId>
+            <artifactId>ignite-spring-boot-thin-client-autoconfigure-ext</artifactId>
             <version>1.0.0</version>
         </dependency>
 
@@ -49,15 +58,15 @@
         </dependency>
 
         <dependency>
-            <groupId>org.gridgain</groupId>
+            <groupId>${ignite.project}</groupId>
             <artifactId>ignite-core</artifactId>
-            <version>8.9.3</version>
+            <version>${ignite.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.gridgain</groupId>
+            <groupId>${ignite.project}</groupId>
             <artifactId>ignite-indexing</artifactId>
-            <version>8.9.3</version>
+            <version>${ignite.version}</version>
         </dependency>
 
         <dependency>
@@ -66,18 +75,16 @@
             <version>2.2.3.RELEASE</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>5.3.27</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.8.0</version>
         </dependency>
 
     </dependencies>
