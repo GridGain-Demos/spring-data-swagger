@@ -219,7 +219,7 @@ git clone https://github.com/GridGain-Demos/spring-data-training.git
             <version>1.8.0</version>
         </dependency>
     ```
-   1. Update the `IgniteConfig` as shown for Springdoc OpenAPI UI with Swagger Integration:
+2. Update the `IgniteConfig` as shown for Springdoc OpenAPI UI with Swagger Integration:
    ```java
       @Configuration
       public class IgniteConfig extends WebMvcConfigurationSupport {
@@ -246,13 +246,13 @@ git clone https://github.com/GridGain-Demos/spring-data-training.git
       }
 
    ```
-2. Test Swagger API docs in your browser or POSTMAN :
+3. Test Swagger API docs in your browser or POSTMAN :
 
    ```shell script
    http://localhost:18080/v3/api-docs
    ```
 
-3. Test Swagger UI docs in your browser:
+4. Test Swagger UI docs in your browser:
 
    ```shell script
    http://localhost:18080/swagger-ui/index.html with 
