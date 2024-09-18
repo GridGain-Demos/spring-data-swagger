@@ -20,13 +20,6 @@
         <h2.version>1.4.197</h2.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>GridGain External Repository</id>
-            <url>https://www.gridgainsystems.com/nexus/content/repositories/external</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -39,10 +32,11 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.ignite/ignite-spring-data-ext -->
         <dependency>
             <groupId>org.apache.ignite</groupId>
             <artifactId>ignite-spring-data-ext</artifactId>
-            <version>2.0.0</version>
+            <version>3.0.0</version>
         </dependency>
 
         <dependency>
@@ -60,6 +54,12 @@
         <dependency>
             <groupId>${ignite.project}</groupId>
             <artifactId>ignite-core</artifactId>
+            <version>${ignite.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${ignite.project}</groupId>
+            <artifactId>ignite-spring</artifactId>
             <version>${ignite.version}</version>
         </dependency>
 

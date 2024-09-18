@@ -1,7 +1,12 @@
 ## Setting Up Environment
 
-* Java Developer Kit, version 8 or later
-* Apache Maven 3.0 or later
+* Java Developer Kit, version 17
+* Apache Maven 3.6 or later
+* GridGain version 8.9.10 or later
+* Use OpenAPI with Swagger Integration
+* Use GridGain Thin Client
+* Use Spring Boot 2.7.18
+* Use Ignite Spring Data Extension 3
 * Your favorite IDE, such as IntelliJ IDEA, or Eclipse, or a simple text editor.
 
 ## Clone the Project
@@ -14,20 +19,28 @@ git clone https://github.com/GridGain-Demos/spring-data-training.git
 
 ## Configure Ignite Spring Boot and Data Extensions
 
-1. Enable Ignite Spring Boot and Spring Data extensions by adding the following artifacts to the `pom.xml` file
+1. Enable Ignite Spring Boot, Spring Boot Thin Client AutoConfigure and Spring Data extensions by adding the following artifacts to the `pom.xml` file:
 
     ```xml
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.18</version>
+        <relativePath/> 
+    </parent>
+   
     <dependency>
        <groupId>org.apache.ignite</groupId>
-       <artifactId>ignite-spring-data-2.2-ext</artifactId>
+       <artifactId>ignite-spring-boot-thin-client-autoconfigure-ext</artifactId>
        <version>1.0.0</version>
     </dependency>
 
     <dependency>
        <groupId>org.apache.ignite</groupId>
-       <artifactId>ignite-spring-boot-autoconfigure-ext</artifactId>
-       <version>1.0.0</version>
+       <artifactId>ignite-spring-data-ext</artifactId>
+       <version>3.0.0</version>
     </dependency>
+
     ```
 
 2. Add the following property to the pom.xml to select a version of H2 supported by Ignite:
@@ -37,38 +50,13 @@ git clone https://github.com/GridGain-Demos/spring-data-training.git
     </properties>
     ```
 
-## Start Ignite Server Node With Spring Boot
+## Spring Boot settings
 
-1. Add the `IgniteConfig` class that returns an instance of Ignite started by Spring Boot:
+1. Update the `Application` class by tagging it with `@EnableIgniteRepositories` annotation.
 
-    ```java
-    @Configuration
-    public class IgniteConfig {
-        @Bean(name = "igniteInstance")
-        public Ignite igniteInstance(Ignite ignite) {
-            return ignite;
-        }
-    }
-    ```
+2. Start the application and confirm Spring Boot started an Ignite server node instance.
 
-2. Update the `Application` class by tagging it with `@EnableIgniteRepositories` annotation.
-
-3. Start the application and confirm Spring Boot started an Ignite server node instance.
-
-## Change Spring Boot Settings to Start Ignite Client Node
-
-1. Update the `IgniteConfig` by adding an `IgniteConfigurer` that requires Spring Boot to start an Ignite client node:
-
-    ```java
-     @Bean
-     public IgniteConfigurer configurer() {
-         return igniteConfiguration -> {
-         igniteConfiguration.setClientMode(true);
-         };
-     }
-    ```
-
-2. Add an `ServerNodeStartup` class that will be a separate application/process for an Ignite server node.
+3. Add a `ServerNodeStartup` class that will be a separate application/process for an Ignite server node.
 
     ```java
     public class ServerNodeStartup {
@@ -78,8 +66,7 @@ git clone https://github.com/GridGain-Demos/spring-data-training.git
     }
     ```
 
-3. Start the Spring Boot application and the `ServerNodeStartupClass` application, and confirm the client node can
-   connect to the server.
+4. Start server node using the `ServerNodeStartupClass` application.
 
 ## Load World Database
 
@@ -124,9 +111,10 @@ git clone https://github.com/GridGain-Demos/spring-data-training.git
     !run config/world.sql
     ```
 
-## Run Simple Auto-Generated Queries Via Ignite Repository
+## Start the Spring Boot application & Run Simple Auto-Generated Queries Via Ignite Repository
 
-1. Create the `CountryRepository` class:
+1. Start the Spring Boot application that will run the autoconfigured Ignite Thin Cl.
+2. Create the `CountryRepository` class:
 
     ```java
     @RepositoryConfig (cacheName = "Country")
@@ -136,13 +124,13 @@ git clone https://github.com/GridGain-Demos/spring-data-training.git
     }
     ```
 
-2. Add a method that returns countries with a population bigger than provided one:
+3. Add a method that returns countries with a population bigger than provided one:
 
     ```java
     public List<Country> findByPopulationGreaterThanOrderByPopulationDesc(int population);
     ```
 
-3. Add a test that validates that the method returns a non-empty result:
+4. Add a test that validates that the method returns a non-empty result:
 
     ```java
     @Test
@@ -214,66 +202,60 @@ git clone https://github.com/GridGain-Demos/spring-data-training.git
     http://localhost:8080/api/mostPopulated?limit=5
     ```
 
-## BONUS - Swagger Integration: Configure Swagger API Extensions to generate Swagger API DOCS
+## BONUS - OpenAPI with Swagger Integration: Configure Swagger API Extensions to generate Swagger API DOCS
 
-1. Enable Swagger2 and Swagger-UI extensions by adding the following artifacts to the `pom.xml` file
+1. Enable Springdoc OpenAPI UI that has Swagger Integration by adding the following artifacts to the `pom.xml` file
 
     ```xml
-        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>5.3.27</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.8.0</version>
         </dependency>
-
     ```
-2. Update the `IgniteConfig` by adding @EnableSwagger2 annonation before the public class declaration. Add a method iDocket method as shown:
-      ```java
-        @Configuration
-        @EnableSwagger2
-        
-        public class IgniteConfig {
-            @Bean(name = "igniteInstance")
-            public Ignite igniteInstance(Ignite ignite) {
-                return ignite;
-            }
-        
-            @Bean
-            public IgniteConfigurer configurer() {
-                return igniteConfiguration -> {
-                    igniteConfiguration.setClientMode(true);
-                };
-            }
-        
-            @Bean
-            public Docket apiDocket(){
-                Docket docket = new Docket(DocumentationType.SWAGGER_2)
-                        .select()
-                        .apis(RequestHandlerSelectors.basePackage("com.gridgain.training.spring"))
-                        .paths(PathSelectors.any())
-                        .build();
-                return docket;
-            }
-        
-        }
+   1. Update the `IgniteConfig` as shown for Springdoc OpenAPI UI with Swagger Integration:
+   ```java
+      @Configuration
+      public class IgniteConfig extends WebMvcConfigurationSupport {
+      @Override
+      public void addResourceHandlers(ResourceHandlerRegistry registry)
+      {
+      registry.addResourceHandler("/swagger-ui/**")
+      .addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/5.11.8/");
+      }
+   
+          @Bean
+          public OpenAPI springShopOpenAPI() {
+              return new OpenAPI()
+                      .info(new Info().title("SpringData Swagger")
+                              .description("SpringData + REST + SwaggerUI")
+                              .version("v0.0.1")
+                              .license(new License().name("Apache 2.0").url("http://springdoc.org")))
+                      .externalDocs(new ExternalDocumentation()
+                              .description("SpringData Swagger Documentation")
+                              .url("https://github.com/rdGridGain/spring-data-swagger"));
+          }
+   
+   
+      }
 
-       ```
-3. Test Swagger API docs in your browser or POSTMAN :
+   ```
+2. Test Swagger API docs in your browser or POSTMAN :
 
    ```shell script
-   http://localhost:8080/v2/api-docs
+   http://localhost:18080/v3/api-docs
    ```
 
-4. Test Swagger UI docs in your browser:
+3. Test Swagger UI docs in your browser:
 
    ```shell script
-   http://localhost:8080/swagger-ui.html
+   http://localhost:18080/swagger-ui/index.html with 
+   http://localhost:18080/v3/api-docs in Explore
    ```
    
