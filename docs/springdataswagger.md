@@ -14,7 +14,7 @@
 Open a terminal window and clone the project to your dev environment:
 
 ```shell script
-git clone https://github.com/GridGain-Demos/spring-data-training.git
+git clone https://github.com/GridGain-Demos/spring-data-swagger.git
 ```
 
 ## Configure Ignite Spring Boot and Data Extensions
